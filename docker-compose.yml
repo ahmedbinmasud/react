@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    image: ubuntu:latest
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+    volumes:
+      - ./nginx.conf:/etc/nginx/sites-available/default
+      - .:/app
+    expose:
+      - 80
+    command: >
+      bash -c "
+        apt-get update &&
+        apt-get install -y curl npm nginx &&
+        ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default &&
+        npm install &&
+        npm run build &&
+        nginx -g 'daemon off;'
+      "
+

@@ -1,0 +1,38 @@
+# Use the official Ubuntu base image
+FROM ubuntu:latest
+
+# Set environment variables to prevent interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    npm \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create and set the working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install project dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Build the React app
+RUN npm run build
+
+# Configure Nginx
+RUN apt-get update && apt-get install -y nginx
+COPY react /etc/nginx/sites-available
+RUN ln -s /etc/nginx/sites-available/react /etc/nginx/sites-enabled
+
+# Expose the Nginx port
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
+

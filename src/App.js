@@ -16,7 +16,7 @@ function App() {
               Hello, I'm <strong>Ahmed Bin Masud</strong> from Lahore.
             </p>
             <p className="Description-text">
-              Welcome to my personal website. I'm passionate about <span className="Highlighted">React</span> and building cool things!
+              Welcome to my personal sonata website. I'm passionate about <span className="Highlighted">React</span> and building cool things!
             </p>
           </div>
         </div>
